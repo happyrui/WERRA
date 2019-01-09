@@ -7,6 +7,8 @@ import {
 import PropTypes from 'prop-types';
 import TodoList from './pages/todoList';
 import TodoDetail from './pages/todoDetail';
+import OneGame from './pages/oneGame';
+import User from './pages/user';
 
 // 引入全局左侧菜单
 /*
@@ -23,6 +25,8 @@ const App = ((history) => {
                     <Route path="/" exact component={TodoList}></Route>
                     <Route path="/todoList" exact component={TodoList}></Route>
                     <Route path="/todoDetail" exact component={TodoDetail}></Route>
+                    <Route path='/oneGame' exact component={OneGame}></Route>
+                    <Route path='/user' exact component={User}></Route>
                 </Switch>
             </LayoutBasic>
         </Router>
