@@ -15,5 +15,9 @@ Webpack+ECMAScript6+React+Redux+Antd
 + [***实践webpack+es6+react+redux+antd构建项目(二) react，redux，antd引入***](https://blog.csdn.net/zr15829039341/article/details/85267165)
 + [***实践webpack+es6+react+redux+antd构建项目(三) 配置proxy代理***](https://blog.csdn.net/zr15829039341/article/details/85321441)
 + [***实践webpack+es6+react+redux+antd构建项目(四) 区分dev和prod环境***](https://blog.csdn.net/zr15829039341/article/details/85787545)
++ [***实践webpack+es6+react+redux+antd构建项目(五) antd Layout菜单***](https://blog.csdn.net/zr15829039341/article/details/86094501)
+
+### 演示地址
++ [***演示地址***](https://dist-jpa6oqu6e.now.sh)
 
 ### 遇到问题
