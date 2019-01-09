@@ -17,12 +17,12 @@ module.exports = merge(common, {
         // 处理页面强制刷新时路由页面404问题
         historyApiFallback: true,
         // 配置easymock代理
-        // proxy: {
-        //     "/api":{
-        //         changeOrigin: true,
-        //         target: "https://www.easy-mock.com/mock/5c24adb39a96a934e48de313"
-        //     }
-        // }
+        proxy: {
+            "/api":{
+                changeOrigin: true,
+                target: "https://www.easy-mock.com/mock/5c24adb39a96a934e48de313"
+            }
+        }
     },
     plugins: [
         // 热替换
