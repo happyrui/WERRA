@@ -7,7 +7,7 @@ const listData = res => ({
 
 export const getTodoList = (params, fn) => async (dispatch) => {
     try {
-        const result = await request('https://www.easy-mock.com/mock/5c24adb39a96a934e48de313/api/change/list', {
+        const result = await request('/api/change/list', {
             method: 'GET',
             data: params
         });

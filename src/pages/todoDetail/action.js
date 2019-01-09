@@ -7,7 +7,7 @@ const detailData = res => ({
 
 export const getTodoDetail = (params, fn) => async (dispatch) => {
     try {
-        const result = await request('https://www.easy-mock.com/mock/5c24adb39a96a934e48de313/api/change/detail', {
+        const result = await request('/api/change/detail', {
             method: 'GET',
             data: params
         });
