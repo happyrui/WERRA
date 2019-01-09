@@ -17,9 +17,9 @@ class LayoutBasic extends React.PureComponent {
                 name: '清单列表'
             },
             {
-                match: '/myList',
+                match: '/oneGame',
                 icon: 'calendar',
-                name: '我的列表'
+                name: '一个游戏'
             },
             {
                 match: '/user',
@@ -64,7 +64,7 @@ class LayoutBasic extends React.PureComponent {
                 </Sider>
                 <Layout>
                     <Header style={{ background: '#fff', padding: 0 }} />
-                    <Content style={{ margin: '0 16px' }}>
+                    <Content style={{ margin: '10px', position:'sticky' }}>
                         {this.props.children}
                     </Content>
                 </Layout>
