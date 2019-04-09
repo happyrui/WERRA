@@ -27,6 +27,7 @@ class TodoList extends PureComponent {
         }
     }
     componentDidMount(){
+        console.log('aaaaa');
         this.props.getTodoList();
     }
     dateCellRender = (date) => {
