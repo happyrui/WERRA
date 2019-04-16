@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type='number' onblur='check(value)'></input>    
+    <script>
+        function check(value) {
+            console.log(value)
+        }
+
+
+        //  作用域，作用域链，闭包
+        var n = 9;
+        function fun() {　　　       
+            var n = 1;     
+            add = function() {    //add 是一个全局变量，add 的值是一个匿名函数。而这个匿名函数本身也是一个闭包，和 fun2 处于同一作用域，
+            //所以 add 相当于是一个 setter，可以在函数外部对函数内部的局部变量进行操作     
+                console.log('shifouzhixingadd')                                    
+                n += 1  
+                console.log(n)  
+            }   
+            function fun2(){ 
+                console.log('shifouzhixingfun2')                                    
+                console.log(n);   
+            }   
+            return fun2;
+        } 
+        // result能被赋值为一个函数，是因为fun()里 return了函数
+      var result = fun();　　
+      // 第一次执行result()的时候不会执行 add()，它只是一个函数表达式
+      result(); // shifouzhixingfun2  1
+      // add是一个全局的函数
+      // 执行 n+=1 时，找到执行作用域的n，如果找不到就上一级去找
+      add();   // shifouzhixingadd 2    
+      // 已经改变了n
+      result();  // shifouzhixingfun2 2
+
+        // add1的值其实也是闭包
+        // var add1 = function() {
+        //     var counter = 0;
+        //     var plus = function() {return counter += 1;}  //闭包 
+        //     return plus;
+        // }
+        function add1() {
+            // 理解 为什么执行plus2时，couter初始值都是0,为什么还能一直加加，
+            // 是因为 保存在内存中了
+            var counter = 0;
+            var plus = function() {return counter += 1;}  //闭包 
+            // 使用闭包，counter的值一直在内存中，所以可以一直加加
+            return plus;
+        }
+        // 在函数里定义个闭包的值，然后将它 return 出来
+        var plus2 = add1();
+        console.log(plus2());  // 1
+        console.log(plus2());  // 2
+        console.log(plus2())   // 3
+
+    </script>
+</body>
+</html>

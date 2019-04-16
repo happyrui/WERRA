@@ -37,7 +37,7 @@ class TodoList extends PureComponent {
         if(dBack < 0) return;
         // 使用数组映射 避免swtich case 判断
         let toDo = ['早', '早', '中', '中', '晚', '晚', '休', '休'];
-        value = toDo[dBack % 8];
+        value = toDo[dBack % 8] + '班';
         return (
             <Badge status='warning' text={value} />
         );
