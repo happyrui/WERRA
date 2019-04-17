@@ -21,6 +21,11 @@ module.exports = merge(common, {
             "/api":{
                 changeOrigin: true,
                 target: "https://www.easy-mock.com/mock/5c24adb39a96a934e48de313"
+            },
+            "/node": {
+                changeOrigin: true,
+                pathRewrite: {'^/node' : ''}, // 可转换
+                target: "http://localhost:3000"
             }
         }
     },
