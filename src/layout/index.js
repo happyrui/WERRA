@@ -12,13 +12,18 @@ class LayoutBasic extends React.PureComponent {
         collapsed: true,
         menu: [
             {
+                match: '/calendar',
+                icon: 'calendar',
+                name: '值班日历'
+            },
+            {
                 match: '/todoList',
                 icon: 'book',
                 name: '清单列表'
             },
             {
                 match: '/oneGame',
-                icon: 'calendar',
+                icon: 'crown',
                 name: '一个游戏'
             },
             {
