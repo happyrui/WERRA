@@ -5,6 +5,7 @@ import {
     Route,Switch
   } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Calendar from './pages/calendar';
 import TodoList from './pages/todoList';
 import TodoDetail from './pages/todoDetail';
 import OneGame from './pages/oneGame';
@@ -22,7 +23,8 @@ const App = ((history) => {
         <Router history={history}>
             <LayoutBasic>
                 <Switch>
-                    <Route path="/" exact component={TodoList}></Route>
+                    <Route path="/" exact component={Calendar}></Route>
+                    <Route path="/calendar" exact component={Calendar}></Route>
                     <Route path="/todoList" exact component={TodoList}></Route>
                     <Route path="/todoDetail" exact component={TodoDetail}></Route>
                     <Route path='/oneGame' exact component={OneGame}></Route>
