@@ -8,7 +8,7 @@ const todoListReducer = (state=initState, action) => {
             return {
                 ...state,
                 ...action.payload,
-                listData: action.payload.listData
+                listData: action.payload
             };
         default: 
             return {
@@ -16,5 +16,4 @@ const todoListReducer = (state=initState, action) => {
             };
     }
 }
-
 export default todoListReducer;
