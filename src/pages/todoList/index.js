@@ -149,20 +149,22 @@ class TodoList extends PureComponent {
     // 编辑
     ok = () => {
         this.props.form.validateFields((err, values)=>{
-            if(!err) {
+            if(1) {
                 let params = {
                     summary: values.summary,
                     details: values.details,
                     id: this.state.id
                 }
                 if (params.id) {
-                    this.props.update(params,()=>{
+                    this.props.update(params,(data)=>{
+                        console.log(data)
                         this.init();
                     });
                 } else {
                     delete params.id
                     params.is_finished = 0;
-                    this.props.create(params,()=>{
+                    this.props.create(params,(data)=>{
+                        console.log(data)
                         this.init();
                     });
                 }

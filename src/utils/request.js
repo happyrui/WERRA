@@ -1,3 +1,5 @@
+import { message } from "antd";
+
 export default async function request(url, options) {
     return requestDataProcess(url, options);
 }
@@ -17,6 +19,13 @@ async function requestDataProcess(url, options) {
     headers['Content-Type'] = 'application/json';
     options.headers = headers;
 
-    const result = await fetch(url, options).then(res => res.json());
+    const result = await fetch(url, options).then(async response => {
+        if (response.status >= 200 && response.status < 300) {
+            const responseJSON = await response.json();
+            return responseJSON;
+        } else {
+            message.error(response.statusText)
+        }
+    });
     return result;
 }

@@ -13,7 +13,7 @@ export const getTodoList = (params, fn) => async (dispatch) => {
             data: params
         });
         await dispatch(listData(result));
-        fn();
+        if (result) fn(result);
     } catch (error) {
 
     }
@@ -25,7 +25,7 @@ export const findOne = (params, fn) => async (dispatch) => {
             method: 'POST',
             data: params
         });
-        fn(result);
+        if (result) fn(result);
     } catch (error) {
 
     }
@@ -38,7 +38,7 @@ export const create = (params, fn) => async (dispatch) => {
             method: 'POST',
             data: params
         });
-        fn(result);
+        if (result) fn(result);
     } catch (error) {
 
     }
@@ -50,7 +50,7 @@ export const update = (params, fn) => async (dispatch) => {
             method: 'POST',
             data: params
         });
-        fn(result);
+        if (result) fn(result);
     } catch (error) {
 
     }
@@ -62,7 +62,7 @@ export const deleteOne = (params, fn) => async (dispatch) => {
             method: 'POST',
             data: params
         });
-        fn(result);
+        if (result) fn(result);
     } catch (error) {
 
     }
@@ -74,7 +74,7 @@ export const finish = (params, fn) => async (dispatch) => {
             method: 'POST',
             data: params
         });
-        fn(result);
+        if (result) fn(result);
     } catch (error) {
 
     }
