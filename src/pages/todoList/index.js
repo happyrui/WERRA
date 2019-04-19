@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Table, Card, Icon, Modal, Form, Input, Button } from 'antd';
+import { Table, Card, Icon, Modal, Form, Input, Button, Upload } from 'antd';
 import { Ellipsis } from 'ant-design-pro';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -190,6 +190,23 @@ class TodoList extends PureComponent {
         });
     }
     render() {
+        const props = {
+            name: 'file',
+            action: '/node/todo/upload',
+            headers: {
+              authorization: 'authorization-text',
+            },
+            onChange(info) {
+              if (info.file.status !== 'uploading') {
+                console.log(info.file, info.fileList);
+              }
+              if (info.file.status === 'done') {
+                message.success(`${info.file.name} file uploaded successfully`);
+              } else if (info.file.status === 'error') {
+                message.error(`${info.file.name} file upload failed.`);
+              }
+            },
+        };
         return (
             <Card>
                 <Button
@@ -199,6 +216,9 @@ class TodoList extends PureComponent {
                 >新建</Button>
                 {this.renderTable()}
                 {this.renderModal()}
+                <Upload {...props}>
+                    <Button>上传文件</Button>
+                </Upload>
             </Card>
         )
     }
