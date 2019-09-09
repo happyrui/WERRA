@@ -3,6 +3,8 @@ import { Card, Button } from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getTodoDetail } from './action';
+import styles from './index.less';
+console.log(styles);
 
 // @connect(
 //     state => state,{
@@ -63,6 +65,18 @@ const TodoDetail = () => {
     }, [count])
     return (
         <div>
+            <div className="inlineTable">
+                这是一个listItem模型
+            </div>
+            <div className="box">
+                <p className="content">文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字</p>
+            </div>
+            <div className="boxSizing">
+                hjdsdh
+            </div>
+            <textarea>
+                ssd
+            </textarea>
             <p>You clicked {count} times</p>
             <button onClick={() => setCount(count + 1)}>
             Click me
@@ -71,6 +85,11 @@ const TodoDetail = () => {
             <button onClick={() => setAa(aa * 2)}>
             Click me
             </button>
+            <div className="boxImg">
+                <img src="https://demo.cssworld.cn/images/4/cover-5-1.jpg" />
+            </div>
+            <div className='border'></div>
+            <div className="sanjiaoxing"></div>
         </div>
     );
 }

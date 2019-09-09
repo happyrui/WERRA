@@ -24,7 +24,11 @@ async function requestDataProcess(url, options) {
             const responseJSON = await response.json();
             return responseJSON;
         } else {
-            message.error(response.statusText)
+            const responseJSON = await response.json();
+            if(responseJSON){
+                message.error(responseJSON.message)
+            }
+            // message.error(response.statusText)
         }
     });
     return result;

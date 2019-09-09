@@ -140,8 +140,8 @@ class TodoList extends PureComponent {
         if(record){
             this.setState({ id: Number(record.id) });
             this.props.form.setFieldsValue({
-                summary: record.summary,
-                details: record.details
+                summary: record.summary || undefined,
+                details: record.details || undefined,
             });
         }
         this.setState({ visible: true });
@@ -163,6 +163,7 @@ class TodoList extends PureComponent {
                 } else {
                     delete params.id
                     params.is_finished = 0;
+                    params.is_del = 0;
                     this.props.create(params,(data)=>{
                         console.log(data)
                         this.init();
