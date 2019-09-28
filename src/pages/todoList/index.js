@@ -9,6 +9,13 @@ import './index.less';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
+
+// 高阶组件
+// @connect(a, b)
+// 前者负责从全局应用状态state中取出所需数据，映射到展示组件的props，后者负责把需要用到的action映射到展示组件的props上。
+// 每当store中的state更新时，a就会重新执行，重新计算传递给展示组件的props，从而触发组件的重新渲染
+// 可以省略a参数，这样state的更新就不会引起组件的重新渲染
+// b接收store.dispatch方法作为参数，返回展示组件用来修改state的函数
 @connect(
     state => state,
     {
