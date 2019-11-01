@@ -23,7 +23,7 @@ class CalendarList extends PureComponent {
     constructor(props){
         super(props);
         this.state = {
-            changeDate: '2019-01-01'
+            changeDate: '2019-10-18'
         }
     }
     componentDidMount(){
@@ -37,8 +37,8 @@ class CalendarList extends PureComponent {
         // 过去时间，直接返回
         if(dBack < 0) return;
         // 使用数组映射 避免swtich case 判断
-        let calendar = ['早', '早', '中', '中', '晚', '晚', '休', '休'];
-        value = calendar[dBack % 8] + '班';
+        let calendar = ['白', '白', '晚', '晚', '休', '休'];
+        value = calendar[dBack % 6] + '班';
         return (
             <Badge status='warning' text={value} />
         );

@@ -2,8 +2,9 @@ import React, { PureComponent } from 'react';
 import { Card, Button, Divider } from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { ErrorBoundary, CssEx, ReactHooks } from '../../components';
+import { ErrorBoundary, CssEx, ReactHooks, ConnectSon, CitySelector } from '../../components';
 import { getTodoDetail } from './action';
+import TodoDetailConnect from './TodoDetailConnect';
 
 const Profile = ({ err }) => {
     return(
@@ -64,6 +65,22 @@ export default class TodoDetail extends PureComponent {
                 {/* React hooks学习 */}
                 <div>
                     <ReactHooks />
+                    <Divider />
+                </div>
+                {/* React Connect 学习 */}
+                {/* Provider共享容器 接收值 */}
+                <TodoDetailConnect.Provider value={{name: 'ze', age: 24}}>
+                    <ConnectSon />
+                    <Divider />
+                </TodoDetailConnect.Provider>
+                {/* ts组件 */}
+                <div>
+                    <CitySelector 
+                        value={[]} 
+                        onChange={()=>{}} 
+                        mode="multiple"
+                        length={10}
+                    />
                     <Divider />
                 </div>
             </div>
