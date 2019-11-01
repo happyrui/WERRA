@@ -30,6 +30,10 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({template:'./public/index.html'}),
     ],
+    // 添加resolve
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js']
+    },
     module: {
         rules: [
             { 
@@ -38,6 +42,11 @@ module.exports = {
                 use: {
                     loader: 'babel-loader'
                 } 
+            },
+            // 增加ts-loader
+            {
+                test: /\.tsx?$/,
+                loaders: ['babel-loader', 'ts-loader']
             },
             {
                 test: /\.(css|less)$/,
