@@ -61,7 +61,7 @@ class Component extends React.PureComponent<Props, State> {
       return (
         <div>
           <Select
-            // {...this.props}
+            {...this.props}
             style={{ width: 300 }}
             open={false}
             onDropdownVisibleChange={this.openModal}

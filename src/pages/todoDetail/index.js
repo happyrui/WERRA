@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Card, Button, Divider } from 'antd';
+import { Card, Button, Divider, Form } from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ErrorBoundary, CssEx, ReactHooks, ConnectSon, CitySelector } from '../../components';
@@ -17,7 +17,7 @@ const Profile = ({ err }) => {
         getTodoDetail
     }
 )
-export default class TodoDetail extends PureComponent {
+class TodoDetail extends PureComponent {
     static propTypes = {
         getTodoDetail: PropTypes.func.isRequired,
         todoDetailReducer: PropTypes.shape({
@@ -38,6 +38,7 @@ export default class TodoDetail extends PureComponent {
     }
     //3、 组件生成DOM，必须是JSX规则，第一次渲染。
     render() {
+        const { form : { getFieldDecorator } } = this.props;
         const { info } = this.props.todoDetailReducer;
         const { err } = this.state;
         return (
@@ -73,20 +74,27 @@ export default class TodoDetail extends PureComponent {
                     <ConnectSon />
                     <Divider />
                 </TodoDetailConnect.Provider>
-                {/* ts组件 */}
+                {/* ts组件 + hooks 学习 */}
                 <div>
-                    <CitySelector 
-                        value={[]} 
-                        onChange={()=>{}} 
-                        mode="multiple"
-                        length={10}
-                    />
+                    <Form.Item>
+                        {getFieldDecorator('detail', {
+                            initialValue: ['121'],
+                        })(
+                            <CitySelector 
+                                mode="multiple"
+                                length={10}
+                                placeholder='请选择'
+                            />
+                        )}
+                    </Form.Item>
                     <Divider />
                 </div>
             </div>
         )
     }
 }
+
+export default Form.create()(TodoDetail);
 // 二次渲染
 /**
  * 父组件的props发生更新

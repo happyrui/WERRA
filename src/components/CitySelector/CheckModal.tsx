@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { Modal, Tabs, Tag, message, Button } from 'antd';
 import { Ellipsis } from 'ant-design-pro';
 import './index.less';
@@ -46,108 +47,97 @@ const CityRow = (props:any) => {
   )
 }
 
-export default class CheckModal extends React.PureComponent<Props, State> {
-    constructor(props:any) {
-      super(props);
-      this.state = {
-        disabled: false,
-        selectedTag: []
-      }
-    }
+const CheckModal = (props: Props) => {
+  const { visible, data, multiple, length, handleChangeVisible, onOk, value } = props;
 
-    componentWillReceiveProps = (props: Props) => {
-      const { value } = props;
-      this.setState({ selectedTag: value });
-    }
-    handleCancel = () => {
-      this.props.handleChangeVisible();
-      this.setState({ disabled: false });
-    }
+  const [disabled, setDisabled] = useState(false);
+  const [selectedTag, setSelectedTag] = useState();
 
-    handleOk = () => {
-      const { onOk, multiple } = this.props;
-      const { selectedTag } = this.state;
-      if (multiple && selectedTag.length > 0 || !multiple) {
-        onOk(selectedTag);
+  useEffect(() => {
+    setSelectedTag(value)
+  }, [value])
+
+  const handleCancel = () => {
+    handleChangeVisible();
+    setDisabled(false);
+  }
+
+  const handleOk = () => {
+    if (multiple && selectedTag.length > 0 || !multiple) {
+      onOk(selectedTag);
+    } else {
+      message.warning("未选择城市");
+    }
+  }
+
+  const handleChange = (key: number, checked: boolean) => {
+    if (multiple) {
+      const nextselectedTag:any = checked ? [...(selectedTag || []), key] : selectedTag.filter((t:any) => t !== key);
+      const selects:Number[] = Array.from(new Set(nextselectedTag))
+      setSelectedTag(selects)
+      length == selects.length - 1 && message.warning(`最多选择${length}个`)
+      if(length < selects.length ) {
+        setDisabled(true)
       } else {
-        message.warning("未选择城市");
+        setDisabled(false)
       }
+    } else {
+      setSelectedTag(key)
+      onOk(key)
     }
+  };
 
-    handleChange = (key: number, checked: boolean) => {
-      const { selectedTag } = this.state;
-      const { length, multiple, onOk } = this.props;
-      if (multiple) {
-        const nextselectedTag:any = checked ? [...(selectedTag || []), key] : selectedTag.filter((t:any) => t !== key);
-        const selects:Number[] = Array.from(new Set(nextselectedTag))
-        this.setState({ selectedTag: selects });
-        length == selects.length - 1 && message.warning(`最多选择${length}个`)
-        if(length < selects.length ) {
-          this.setState({ disabled: true })
-        } else {
-          this.setState({ disabled: false })
-        }
-      } else {
-        this.setState({ selectedTag: key })
-        onOk(key)
-      }
-    };
-
-    // 顺序
-    compare = (property: any) => {
-      return (obj1: any, obj2: any) => {
-        var value1 = obj1[property];
-        var value2 = obj2[property];
-        return value1 - value2;
-      }
+  // 顺序
+  const compare = (property: any) => {
+    return (obj1: any, obj2: any) => {
+      var value1 = obj1[property];
+      var value2 = obj2[property];
+      return value1 - value2;
     }
+  }
 
-    render() {
-      const { visible, data, multiple, length } = this.props;
-      const { disabled, selectedTag } = this.state;
-      const modalProps = {
-        width: 600,
-        visible,
-        onCancel: this.handleCancel,      
-        destroyOnClose: true,
-        footer: <div>
-          {length && <div style={{ float: 'left', fontSize: 12 }}>最多选择{length}个</div>}
-          <Button onClick={this.handleCancel}>取消</Button>
-          <Button type="primary" onClick={this.handleOk} disabled={disabled || Boolean((data && data.length == 0))}>确认</Button>
-        </div>
-      }
-      if (!multiple || !data.length) {
-        modalProps.footer = null
-      }
-      const hotList = data.filter((i:any) => i.isPopular).sort(this.compare('sort'));
-      return (
-        <div>
-          <Modal {...modalProps} >
-            {data.length > 0 ? 
-              <Tabs
-                size="small" 
-                tabBarGutter={0}
-              >
-                <TabPane tab="热门" key="hot" style={{ height: 340, overflowY: 'auto' }}>
-                  <CityRow onCheck={this.handleChange} value={selectedTag} list={hotList} />
+  const modalProps = {
+    width: 600,
+    visible,
+    onCancel: handleCancel,      
+    destroyOnClose: true,
+    footer: <div>
+      {length && <div style={{ float: 'left', fontSize: 12 }}>最多选择{length}个</div>}
+      <Button onClick={handleCancel}>取消</Button>
+      <Button type="primary" onClick={handleOk} disabled={disabled || Boolean((data && data.length == 0))}>确认</Button>
+    </div>
+  }
+  if (!multiple || !data.length) {
+    modalProps.footer = null
+  }
+  const hotList = data.filter((i:any) => i.isPopular).sort(compare('sort'));
+  return (
+    <div>
+      <Modal {...modalProps} >
+        {data.length > 0 ? 
+          <Tabs
+            size="small" 
+            tabBarGutter={0}
+          >
+            <TabPane tab="热门" key="hot" style={{ height: 340, overflowY: 'auto' }}>
+              <CityRow onCheck={handleChange} value={selectedTag} list={hotList} />
+            </TabPane>
+            {
+              abbrs.map(prefix => (
+                <TabPane tab={prefix} key={prefix} style={{ height: 340, overflowY: 'auto' }}>
+                  {
+                    prefix.split('').map(letter => {
+                      const list = data.filter((i:any) => i.prefix == letter);
+                      return list.length > 0 &&
+                      <CityRow onCheck={handleChange} key={letter} title={letter} value={selectedTag} list={list} />
+                    })
+                  }
                 </TabPane>
-                {
-                  abbrs.map(prefix => (
-                    <TabPane tab={prefix} key={prefix} style={{ height: 340, overflowY: 'auto' }}>
-                      {
-                        prefix.split('').map(letter => {
-                          const list = data.filter((i:any) => i.prefix == letter);
-                          return list.length > 0 &&
-                          <CityRow onCheck={this.handleChange} key={letter} title={letter} value={selectedTag} list={list} />
-                        })
-                      }
-                    </TabPane>
-                  ))
-                }  
-              </Tabs> :  <span style={{ textAlign:'center' }}>暂无数据</span> }
-          </Modal>
-        </div>
-      )
-    }
-
+              ))
+            }  
+          </Tabs> :  <span style={{ textAlign:'center' }}>暂无数据</span> }
+      </Modal>
+    </div>
+  )
 }
+export default CheckModal;
