@@ -59,7 +59,7 @@ const Component: React.SFC<Props> = (props) => {
         getPopupContainer={ (triggerNode:any) => {return triggerNode.parentNode} }
       >
         {
-          data.map((i:any) => <Option value={i.cityId} title={i.cityName}>{i.cityName}</Option>)
+          data && data.map((i:any) => <Option value={i.cityId} title={i.cityName}>{i.cityName}</Option>)
         }
       </Select>
       <CheckModal

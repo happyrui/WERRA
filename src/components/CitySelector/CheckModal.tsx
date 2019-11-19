@@ -107,14 +107,14 @@ const CheckModal = (props: Props) => {
       <Button type="primary" onClick={handleOk} disabled={disabled || Boolean((data && data.length == 0))}>确认</Button>
     </div>
   }
-  if (!multiple || !data.length) {
+  if (!multiple || !(data && data.length)) {
     modalProps.footer = null
   }
-  const hotList = data.filter((i:any) => i.isPopular).sort(compare('sort'));
+  const hotList = data && data.filter((i:any) => i.isPopular).sort(compare('sort'));
   return (
     <div>
       <Modal {...modalProps} >
-        {data.length > 0 ? 
+        {data && data.length > 0 ? 
           <Tabs
             size="small" 
             tabBarGutter={0}
