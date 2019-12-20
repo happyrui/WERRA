@@ -47,7 +47,7 @@ class CalendarList extends PureComponent {
         // 2019.01.01 是早班第一天
         // 上班周期为早早，中中，晚晚，休休，8天一个周期
         return (
-            <Card>
+            <Card bodyStyle={{ width: 600 }}>
                 你多少号入职的呢？
                 <DatePicker 
                     disabledDate={ (currentDate) => currentDate > moment() } 

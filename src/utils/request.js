@@ -1,4 +1,15 @@
 import { message } from "antd";
+import axios from 'axios';
+
+/**
+ * axios 请求
+ * .get  .post  .all
+ * axios({
+ *  method: '',
+ *  url: '',
+ *  data: {}
+ * })
+ */
 
 export default async function request(url, options) {
     return requestDataProcess(url, options);
