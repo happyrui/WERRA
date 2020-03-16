@@ -96,7 +96,7 @@ const CheckModal = (props: Props) => {
     }
   }
 
-  const modalProps = {
+  const modalProps: any = {
     width: 600,
     visible,
     onCancel: handleCancel,      

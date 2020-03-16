@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
-import { Card, Button, Divider, Form } from 'antd';
+import { Card, Button, Divider, Form, Tooltip, Icon, Row, Col, Slider, InputNumber, Progress, Select, Input, Descriptions} from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { ErrorBoundary, CssEx, ReactHooks, ConnectSon, CitySelector } from '../../components';
 import { getTodoDetail } from './action';
 import TodoDetailConnect from './TodoDetailConnect';
@@ -11,6 +12,12 @@ const Profile = ({ err }) => {
         <div>name: {err.name}</div>
     )
 }
+
+const formItemLayout = {
+    labelCol: { span: 6 },
+    wrapperCol: { span: 18 },
+  };
+const InputGroup = Input.Group;
 
 @connect(
     state => state,{
@@ -28,7 +35,8 @@ class TodoDetail extends PureComponent {
     constructor(props){
         super(props)
         this.state = {
-            err: {name: '错误'}
+            err: {name: '错误'},
+            newType: 1
         }
     }
     //2、 componentWillMount 组件挂载之前调用
@@ -37,10 +45,53 @@ class TodoDetail extends PureComponent {
         this.props.getTodoDetail();
     }
     //3、 组件生成DOM，必须是JSX规则，第一次渲染。
+
+    typeChange = (v,c) => {
+        this.setState({
+            newType: v
+        })
+        this.props.form.setFieldsValue({other: 1})
+    }
     render() {
         const { form : { getFieldDecorator } } = this.props;
         const { info } = this.props.todoDetailReducer;
-        const { err } = this.state;
+        const { err, newType } = this.state;
+        const yearData = [];
+        const endYear = moment().get('year') + 1;
+
+        for (let i = 2013; i <= endYear; i++) {
+          yearData.push(i);
+        }
+
+        const month = [
+          { key: 1, value: '01月' },
+          { key: 2, value: '02月' },
+          { key: 3, value: '03月' },
+          { key: 4, value: '04月' },
+          { key: 5, value: '05月' },
+          { key: 6, value: '06月' },
+          { key: 7, value: '07月' },
+          { key: 8, value: '08月' },
+          { key: 9, value: '09月' },
+          { key: 10, value: '10月' },
+          { key: 11, value: '11月' },
+          { key: 12, value: '12月' },
+        ];
+        const quarter = [
+          { key: 1, value: '第一季度' },
+          { key: 2, value: '第二季度' },
+          { key: 3, value: '第三季度' },
+          { key: 4, value: '第四季度' },
+        ];
+        const halfYear = [{ key: 1, value: '上半年' }, { key: 2, value: '下半年' }];
+
+        const otherData = [month, quarter, halfYear, []][newType - 1];
+        const typeData = [
+          { key: 1, value: '按月' },
+          { key: 2, value: '按季度' },
+          { key: 3, value: '按半年' },
+          { key: 4, value: '按年' },
+        ]
         return (
             <div>
                 <Card>
@@ -76,19 +127,59 @@ class TodoDetail extends PureComponent {
                 </TodoDetailConnect.Provider>
                 {/* ts组件 + hooks 学习 */}
                 <div>
-                    <Form.Item>
-                        {getFieldDecorator('detail', {
-                            initialValue: ['121'],
-                        })(
-                            <CitySelector 
-                                mode="multiple"
-                                length={10}
-                                placeholder='请选择'
-                            />
-                        )}
-                    </Form.Item>
-                    <Divider />
+                  <Form.Item>
+                      {getFieldDecorator('detail', {
+                          initialValue: ['121'],
+                      })(
+                          <CitySelector 
+                              mode="multiple"
+                              length={10}
+                              placeholder='请选择'
+                          />
+                      )}
+                  </Form.Item>
+                  <Divider />
                 </div>
+                {/* 年季度月选择 */}
+                <Form.Item {...formItemLayout}>
+                  <InputGroup compact>
+                    {getFieldDecorator('type', {
+                        initialValue: 1
+                      })(
+                        <Select style={{ width: 100 }} placeholder='请选择' onChange={this.typeChange}>
+                            {typeData.map(i => (
+                            <Select.Option key={i.key} value={i.key}>
+                                {i.value}
+                            </Select.Option>
+                            ))}
+                        </Select>
+                    )}
+                    {getFieldDecorator('year', {
+                        initialValue: moment().get('year')
+                      })(
+                        <Select style={{ width: 100 }} placeholder='请选择' >
+                            {yearData.map(i => (
+                            <Select.Option key={i} value={i}>
+                                {`${i}年`}
+                            </Select.Option>
+                            ))}
+                        </Select>
+                    )}
+                    {newType !== 4 &&
+                      getFieldDecorator('other', {
+                        initialValue: newType == 1 ? moment().get('month') + 1 : 1
+                      })(
+                        <Select style={{ width: 120 }} placeholder='请选择'>
+                            {otherData.map(i => (
+                            <Select.Option key={i.key} value={i.key}>
+                                {i.value}
+                            </Select.Option>
+                            ))}
+                        </Select>
+                      )
+                    }
+                </InputGroup>
+              </Form.Item>
             </div>
         )
     }
