@@ -7,7 +7,7 @@ import cities from './cities';
 interface Props extends FormComponentProps{
   length: number
   onChange: Function
-  mode?: string
+  mode?: any
   value: any
 }
 interface State {
@@ -53,6 +53,8 @@ const Component: React.SFC<Props> = (props) => {
     <div>
       <Select
         {...props}
+        mode={props.mode}
+        onChange={() => props.onChange}
         style={{ width: 300 }}
         open={false}
         onDropdownVisibleChange={openModal}

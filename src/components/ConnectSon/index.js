@@ -21,6 +21,7 @@ import TodoDetailConnect from '../../pages/todoDetail/TodoDetailConnect';
 
 export default class ConnectSon extends PureComponent {
     render() {
+        console.log(this.props.children);
         return (
             <TodoDetailConnect.Consumer>
                 {({name, age})=>
