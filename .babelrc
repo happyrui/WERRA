@@ -13,6 +13,7 @@
             "transform-runtime",
             {
               "helpers": false,
+              // 按需引入 polyfill
               "polyfill": false,
               "regenerator": true,
               "moduleName": "babel-runtime"

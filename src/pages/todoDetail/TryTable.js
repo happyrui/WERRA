@@ -79,20 +79,20 @@ class CostDetail extends React.Component{
               id: 75,
               name: "一个name",
               aValue: "处理中",
-              exList: [
-                {
-                  bValue: "zz",
-                  id: 241,
-                },
-                {
-                  bValue: "alsldsad",
-                  id: 242,
-                },
-                {
-                  bValue: "qwqeqee",
-                  id: 243,
-                }
-              ]
+              // exList: [
+              //   {
+              //     bValue: "zz",
+              //     id: 241,
+              //   },
+              //   {
+              //     bValue: "alsldsad",
+              //     id: 242,
+              //   },
+              //   {
+              //     bValue: "qwqeqee",
+              //     id: 243,
+              //   }
+              // ]
             },
             {
               id: 76,
@@ -118,7 +118,7 @@ class CostDetail extends React.Component{
           const newColumns = [
               {
                 title: (
-                  <div>
+                  this.state.expKeys.length ? <div>
                     <span style={{ position: 'relative', left: -99, color: '#595959' }}>
                       <div
                         onClick={() => this.openOrCloseAll(true, adata)}
@@ -132,7 +132,8 @@ class CostDetail extends React.Component{
                       />
                     </span>
                     <span style={{ left: -17, position: 'relative' }}>父节点</span>
-                  </div>
+                  </div> : 
+                  <span>父节点</span>
                 ),
                 dataIndex: 'name',
                 width: 160,

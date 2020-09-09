@@ -3,6 +3,8 @@ const common = require('./webpack.common.js');
 const webpack = require('webpack');
 
 module.exports = merge(common, {
+    // 在 开发环境 开启source-map，源代码定位 ,可以方便调试代码，在生产环境就不需要开启了，防止源代码暴露
+    // ‘source-map’  'inline-source-map' 'cheap-source-map' 'eval' ''
     devtool: 'inline-source-map',
     devServer: {
         // 默认 localhost

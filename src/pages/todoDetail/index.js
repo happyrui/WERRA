@@ -1,12 +1,15 @@
 import React, { PureComponent } from 'react';
-import { Card, Button, Divider, Form, Table, Icon, Row, Col, Slider, InputNumber, Progress, Select, Input, Descriptions} from 'antd';
+import { Card, Button, Divider, Form, Table, Icon, Row, Col, Slider, InputNumber, Progress, Select, Input, Descriptions, message} from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import XLSX from 'xlsx';
 import { ErrorBoundary, CssEx, ReactHooks, ConnectSon, CitySelector } from '../../components';
 import { getTodoDetail } from './action';
 import TodoDetailConnect from './TodoDetailConnect';
 import TryTable from './TryTable';
+import Counter from './couter';
+import RenderProps from './RenderProps';
 
 const Profile = ({ err }) => {
     return(
@@ -19,6 +22,29 @@ const formItemLayout = {
     wrapperCol: { span: 18 },
   };
 const InputGroup = Input.Group;
+
+function fn1(arg) {
+  console.log("fn1 arg = ", arg);
+  return arg + '1';
+}
+
+function fn2(arg) {
+  console.log("fn2 arg = ", arg);
+  return arg + '2';
+}
+
+function fn3(arg) {
+  console.log("fn3 arg = ", arg);
+  return arg + '3';
+}
+// 执行顺序 3， 2， 1
+console.log("组合", fn1(fn2(fn3("hello"))));
+
+function compose(...funs) {
+  return funs.reduce((first, second) => (...args) => first(second(...args)));
+}
+// 执行顺序 3， 2， 1
+console.log(compose(fn1, fn2, fn3)("hello"));
 
 @connect(
     state => state,{
@@ -85,6 +111,73 @@ class TodoDetail extends PureComponent {
         expKeys: type ? [] : adata && adata.map(i => i.id)
     })
   };
+
+//导入excel
+uploadFile = file => {
+  // 获取上传的文件对象
+  const { files } = file.target;
+  // 通过FileReader对象读取文件
+  const fileReader = new FileReader();
+  console.log('fileReader', fileReader)
+  fileReader.onload = event => {
+      try {
+          const { result } = event.target;
+          // console.log('result', result)
+          // 以二进制流方式读取得到整份excel表格对象
+          const workbook = XLSX.read(result, { type: 'binary' });
+          console.log('workbook', workbook)
+
+          // 存储获取到的数据
+          let data = [];
+          // 遍历每张工作表进行读取（这里默认只读取第一张表）
+          for (const sheet in workbook.Sheets) {
+          // esline-disable-next-line
+              if (workbook.Sheets.hasOwnProperty(sheet)) {
+                  // 利用 sheet_to_json 方法将 excel 转成 json 数据
+                  data = data.concat(XLSX.utils.sheet_to_json(workbook.Sheets[sheet]));
+                  break; // 如果只取第一张表，就取消注释这行
+              }
+          }
+          console.log('data', data);
+      // 最终获取到并且格式化后的 json 数据
+          const uploadData = data.map(item=> {
+            return {
+                // id : Number(item['人员ID']),
+                feeContent: item['费用内容'],
+                feeCategoryName: item['费用类别'],
+                feeCategoryId: item['费用类别ID'],
+                fee: item['金额'],
+                remark: item['供应商/备注'],
+                yearMonth: item['预算年月'],
+                companyName: item['公司'],
+                companyId: item['公司ID'],
+                deptName: item['部门'],
+                deptId: item['部门Id'],
+                feeRemark: item['资金备注'],
+            }
+          })
+          console.log('uploadData', uploadData)//这里得到了后端需要的json数据，调用接口传给后端就行了
+          message.success('上传成功！') //这里用了antd中的message组件
+      } catch (e) {
+          // 这里可以抛出文件类型错误不正确的相关提示
+          message.error('文件类型不正确！');
+      }
+  };
+  // 以二进制方式打开文件
+  fileReader.readAsBinaryString(files[0]);
+}
+
+check = () => {
+  if(key.substr(0, key.length - 2) == 'student'){
+    self.groupStudentList.push(t);
+    console.log('self.group', self.group);
+    console.log('indexOf', self.group.indexOf(t.studentID));
+    if(self.group.indexOf(t.studentID) < 0) {
+      self.group.push(t.studentID);
+    }
+  }
+ }
+ 
 
     render() {
         const { form : { getFieldDecorator } } = this.props;
@@ -308,6 +401,13 @@ class TodoDetail extends PureComponent {
                 <div style={{ height: 'calc(100vh - 172px)' }} >
                   <TryTable />
                 </div>
+                {/* 上传Excel */}
+                <input type='file' onChange={this.uploadFile} />
+
+                {/* 测试Counter */}
+                <Counter />
+                {/* 学习 Render Props· */}
+                <RenderProps render={({x, y}) => (<div>x: {x}, y: {y}</div>) } />
             </div>
             </div>
         )
