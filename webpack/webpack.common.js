@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWepackPlugin = require('clean-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 
 /**
@@ -40,10 +40,10 @@ module.exports = {
         // 默认会删除output指定的输出目录
         new CleanWepackPlugin(),
         // 抽取css文件，提高打包效率，单独生成css,css可以和js并行下载
-        new MiniCssExtractPlugin({
-            filename: "[name].css",
-            chunkFilename: "[id].css"
-        })
+        // new MiniCssExtractPlugin({
+        //     filename: "[name].css",
+        //     chunkFilename: "[id].css"
+        // })
     ],
     // 添加resolve
     resolve: {

@@ -3,19 +3,24 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const common = require('./webpack.common.js');
 const webpack = require('webpack');
 const CleanWepackPlugin = require('clean-webpack-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin') // 引入 PWA 插件
+// const WorkboxPlugin = require('workbox-webpack-plugin') // 引入 PWA 插件
 
-const prodConfig = {
-  plugins: [
-    // 配置 PWA
-    new WorkboxPlugin.GenerateSW({
-      clientsClaim: true,
-      skipWaiting: true
-    })
-  ]
-}
+// const prodConfig = {
+//   plugins: [
+//     // 配置 PWA
+//     new WorkboxPlugin.GenerateSW({
+//       clientsClaim: true,
+//       skipWaiting: true
+//     })
+//   ]
+// }
+// 定义版本变量
+const Version = new Date().getTime();
 
 module.exports = merge(common, {
+    output: {
+      filename: `[name]${Version}.bundle.js`
+    },
     // 调试源码(debug)和运行基准测试(benchmark tests)
     // 会生成app.bundle.js.map
     // devtool: 'source-map',
